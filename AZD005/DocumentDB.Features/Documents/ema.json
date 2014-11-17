@@ -1,0 +1,26 @@
+{
+  "id": "2",
+  "name": "Emanuele",
+  "surname": "DelBono",
+  "age": 41,
+  "contacts": [
+    {
+      "type": "email",
+      "value": "emanuele@codiceplastico.com"
+    },
+    {
+      "type": "phoneNumber",
+      "value": "+39 030 6595241"
+    }
+  ],
+  "social": [
+    {
+      "type": "twitter",
+      "value": "emadb"
+    },
+    {
+      "type": "github",
+      "value": "emadb"
+    }
+  ]
+}

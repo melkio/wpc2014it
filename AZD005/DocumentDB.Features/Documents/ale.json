@@ -1,0 +1,30 @@
+{
+  "id": "1",
+  "name": "Alessandro",
+  "surname": "Melchiori",
+  "age": 35,
+  "contacts": [
+    {
+      "type": "email",
+      "value": "alessandro@codiceplastico.com"
+    },
+    {
+      "type": "phoneNumber",
+      "value": "+39 030 6595241"
+    }
+  ],
+  "social": [
+    {
+      "type": "twitter",
+      "value": "amelchiori"
+    },
+    {
+      "type": "github",
+      "value": "melkio"
+    },
+    {
+      "type": "slideshare",
+      "value": "melkio"
+    }
+  ]
+}
