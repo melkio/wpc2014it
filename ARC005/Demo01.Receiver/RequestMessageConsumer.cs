@@ -13,7 +13,7 @@ namespace Demo01.Receiver
             var response = new ResponseMessage { CorrelationId = request.CorrelationId, Result = true };
             context.Respond(response);
 
-            Console.WriteLine("Request {0} consumed", request.Id);
+            Console.WriteLine("Request {0} consumed", request.CorrelationId);
         }
     }
 }
