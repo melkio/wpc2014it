@@ -1,0 +1,72 @@
+{
+    "name": "musicstoreindex",
+    "fields": [
+        { "name": "key", "type": "Edm.String", "key": true },
+        { "name": "albumTitle", "type": "Edm.String", "suggestions": true },
+        { "name": "albumUrl", "type": "Edm.String", "filterable": false },
+        { "name": "genre", "type": "Edm.String" },
+        { "name": "genreDescription", "type": "Edm.String", "filterable": false },
+        { "name": "artistName", "type": "Edm.String", "suggestions": true },
+        { "name": "orderableOnline", "type": "Edm.Boolean" },
+        { "name": "rating", "type": "Edm.Int32" },
+        { "name": "tags", "type": "Collection(Edm.String)" },
+        { "name": "price", "type": "Edm.Double", "filterable": false },
+        { "name": "margin", "type": "Edm.Int32", "retrievable": false },
+        { "name": "inventory", "type": "Edm.Int32" },
+        { "name": "lastUpdated", "type": "Edm.DateTimeOffset" }
+    ],
+    "scoringProfiles": [
+        {
+            "name": "boostGenre",
+            "text": {
+                "weights": {
+                    "albumTitle": 5,
+                    "genre": 50,
+                    "artistName": 5
+                }
+            }
+        },
+        {
+            "name": "newAndHighlyRated",
+            "functions": [
+                {
+                    "type": "freshness",
+                    "fieldName": "lastUpdated",
+                    "boost": 10,
+                    "interpolation": "quadratic",
+                    "freshness": {
+                        "boostingDuration": "P365D"
+                    }
+                },
+                {
+                    "type": "magnitude",
+                    "fieldName": "rating",
+                    "boost": 10,
+                    "interpolation": "linear",
+                    "magnitude": {
+                        "boostingRangeStart": 1,
+                        "boostingRangeEnd": 5,
+                        "constantBoostBeyondRange": false
+                    }
+                }
+            ]
+        },
+        {
+            "name": "boostMargin",
+            "functions": [
+
+                {
+                    "type": "magnitude",
+                    "fieldName": "margin",
+                    "boost": 50,
+                    "interpolation": "linear",
+                    "magnitude": {
+                        "boostingRangeStart": 50,
+                        "boostingRangeEnd": 100,
+                        "constantBoostBeyondRange": false
+                    }
+                }
+            ]
+        }
+    ]
+}
