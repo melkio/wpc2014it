@@ -66,15 +66,6 @@ namespace DocumentDB.Features
                 var response = await client.CreateDocumentAsync(collection.DocumentsLink, document);
 
                 Assert.NotNull(response);
-
-                dynamic document3 = new
-                {
-                    id = "1",
-                    name = "Alessandro",
-                    surname = "Melchiori",
-                    title = "software developer @  codiceplastico"
-                };
-                await client.CreateDocumentAsync(collection.DocumentsLink, document3);
             }
         }
 
@@ -104,60 +95,35 @@ namespace DocumentDB.Features
             using (var client = DocumentDB.InitializeClient())
             {
                 var collection = await client.GetOrCreateDocumentCollectionAsync();
+                var document = await client.CreateDocumentAsync(collection.DocumentsLink, new { id = "1", name = "alessandro" });
 
-                var document = client
-                    .CreateDocumentQuery(collection.DocumentsLink)
-                    .AsEnumerable()
-                    .Where(x => x.Id == "1")
-                    .SingleOrDefault();
-
-
-                await client.ReplaceDocumentAsync(document.SelfLink, new { id = "1", value = "edited" });
+                await client.ReplaceDocumentAsync(document.Resource.SelfLink, new { id = "1", value = "edited" });
             }
         }
 
         [Test]
-        public async void AddAttachment()
+        public async void AddAndReadAttachment()
         {
             using (var client = DocumentDB.InitializeClient())
             {
                 var collection = await client.GetOrCreateDocumentCollectionAsync();
-
-                var document = client
-                    .CreateDocumentQuery(collection.DocumentsLink)
-                    .AsEnumerable()
-                    .Where(x => x.Id == "1")
-                    .SingleOrDefault();
+                var document = await client.CreateDocumentAsync(collection.DocumentsLink, new { id = "1", name = "alessandro" });
 
                 using (var stream = File.Open("Attachment.txt", FileMode.Open))
-                    await client.CreateAttachmentAsync(document.AttachmentsLink, stream);
-            }
-        }
-
-        [Test]
-        public async void ReadAttachment()
-        {
-            using (var client = DocumentDB.InitializeClient())
-            {
-                var collection = await client.GetOrCreateDocumentCollectionAsync();
-
-                var document = client
-                    .CreateDocumentQuery(collection.DocumentsLink)
-                    .AsEnumerable()
-                    .Where(x => x.Id == "1")
-                    .SingleOrDefault();
-
+                    await client.CreateAttachmentAsync(document.Resource.AttachmentsLink, stream);
 
                 var attachment = client
-                    .CreateAttachmentQuery(document.SelfLink)
+                    .CreateAttachmentQuery(document.Resource.SelfLink)
                     .AsEnumerable()
                     .FirstOrDefault();
 
                 var content = await client.ReadMediaAsync(attachment.MediaLink);
                 var buffer = new Byte[content.ContentLength];
                 await content.Media.ReadAsync(buffer, 0, (int)content.ContentLength);
-                
+
                 var text = Encoding.UTF8.GetString(buffer);
+
+                Assert.NotNull(text);
             }
         }
     }
