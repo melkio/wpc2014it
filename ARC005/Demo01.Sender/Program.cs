@@ -14,6 +14,7 @@ namespace Demo01.Sender
             {
                 configuration.ReceiveFrom("rabbitmq://localhost/wpc2014/demo01-sender");
                 configuration.UseRabbitMqRouting();
+                configuration.SetConcurrentConsumerLimit(1);
                 configuration.UseJsonSerializer();
 
                 configuration.Subscribe(x => x.Consumer<ResponseMessageConsumer>());

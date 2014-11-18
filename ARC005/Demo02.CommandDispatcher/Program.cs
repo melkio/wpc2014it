@@ -14,6 +14,7 @@ namespace Demo02.CommandDispatcher
             {
                 configuration.ReceiveFrom("rabbitmq://localhost/wpc2014/demo02-commandDispatcher");
                 configuration.UseRabbitMqRouting();
+                configuration.SetConcurrentConsumerLimit(1);
                 configuration.UseJsonSerializer();
             });
 

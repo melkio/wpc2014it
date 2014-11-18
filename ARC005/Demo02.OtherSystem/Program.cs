@@ -14,7 +14,7 @@ namespace Demo02.OtherSystem
             {
                 configuration.ReceiveFrom("rabbitmq://localhost/wpc2014/demo02-otherSystem");
                 configuration.UseRabbitMqRouting();
-                //configuration.SetConcurrentConsumerLimit(concurrentConsumerLimit);
+                configuration.SetConcurrentConsumerLimit(1);
                 configuration.UseJsonSerializer();
 
                 //configuration.Subscribe(x => x.Consumer<CommandHandledConsumer>());
