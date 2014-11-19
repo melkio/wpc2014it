@@ -20,16 +20,13 @@ namespace Demo04.Customer
                 configuration.Subscribe(x => x.Consumer<PaymentRequestHandler>());
             });
 
-            do
-            {
-                Console.Write("Customer name:");
-                var customer = Console.ReadLine();
+            Console.Write("Customer name:");
+            var customer = Console.ReadLine();
 
-                var command = new RegisterOrderCommand { Customer = customer };
-                Bus.Instance.Publish(command, x => x.SetResponseAddress(Bus.Instance.Endpoint.Address.Uri));
+            var command = new RegisterOrderCommand { Customer = customer };
+            Bus.Instance.Publish(command, x => x.SetResponseAddress(Bus.Instance.Endpoint.Address.Uri));
 
-            } while (true);
-            
+            Console.ReadLine();
         }
     }
 }
